@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import BaseUserManager
+from django.conf import settings
+from django.core.mail import send_mail
 
 
 class UserProfileManager(BaseUserManager):
@@ -18,6 +20,26 @@ class UserProfileManager(BaseUserManager):
             user.save(using=self.db)
         else:
             print("password and confirm_password should be same")
+        subject = 'A step towards diversifying your knowledge base'
+        message = """<html><p>*****Autogenrated mail please don't reply***********</p>
+            <font color="red"><h1><i>Congratulations! Registration successful.</i></h1></font>
+            <p><i><h3>We believe in the overall development of your personality along with the academics.
+        Diversifying your knowledge base is our prime motto along with sound mental health.
+        We are happy to introduce the platform’s features to you.</h3></i></p>
+        <h3><b>Here we offer you very comprehensive & well-classified sections</b></h3>
+          <ul>
+            <li>Academics - for schools/college education</li>
+            <li>Extra-Curricular - skills like music, art, sketchings & lot more</li>
+            <li>Entrance/Competitive Exams</li>
+           <li>Professional - live courses to boost your career progress</li>
+           <li>Mental Health - we care for your overall health</li>
+            </ul>
+        <p>please visit our official website <a href="www.babakipathshaala.com">www.babakipathshaala.com</a> and let us know in case of any query on:
+          <font color="green">ysi.ajaymaurya@gmail.com</font></p></html>"""
+
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = [email]
+        send_mail( subject,None, email_from, recipient_list,html_message=message)
         return user
 
     def create_superuser(self,email,name,phone,password,confirm_password,age,status):

@@ -13,8 +13,12 @@ from rest_framework.settings import api_settings
 from profiles_api import permissions
 
 
+
 class UserProfileViewSet(viewsets.ModelViewSet):
     serializer_class=serializers.UserProfileSerializer
     queryset=models.UserProfile.objects.all()
     authentication_classes=(TokenAuthentication,)
     permission_classes=(permissions.UpdateOwnProfile,)
+
+
+#    send_mail( subject, message, email_from, recipient_list )
